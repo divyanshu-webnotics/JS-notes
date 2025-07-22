@@ -284,3 +284,7 @@ The key is a number
 The key contains spaces or special characters
 The key is dynamic (like from a variable)
 Let me know if you want to test dynamic property access next or want a little quiz to practice this 🔥
+
+
+NOTE:::
+SAME IS THE CASE FOR TEMPORARY OBJECTS IN STRING LITERAL, THAT WHY ARE THEY IMMUTABLE, REASON IS SAME , their writable property is set as false, so js engine silently ignores the assignment statement without throwing error.
