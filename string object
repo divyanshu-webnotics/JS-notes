@@ -1,0 +1,121 @@
+Fantastic question — this gets to the core difference between having own properties vs. being mutable.
+You're asking:
+“If the string object (new String("abc")) has 0, 1, 2 as own properties, then why can’t I mutate them like strObj[1] = 'x'?”
+⚠️ The key is:
+Even though index properties (like "0", "1", etc.) exist as own properties on new String() objects, they are:
+👉 Non-writable
+Meaning you cannot change them, even though they appear as part of the object.
+🔍 Proof:
+const strObj = new String("abc");
+
+console.log(Object.getOwnPropertyDescriptor(strObj, "1"));
+🧾 Output:
+{
+  value: "b",
+  writable: false,
+  enumerable: true,
+  configurable: false
+}
+⬅️ See that? writable: false means:
+You cannot do strObj[1] = 'x'
+The value 'b' stays frozen
+✅ So, even though:
+new String("abc") creates an object with:
+{
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3
+}
+Each of those keys ("0", "1", etc.) is:
+an own property
+but it is non-writable and non-configurable
+🔒 Why did JavaScript designers do this?
+To preserve immutability of strings, even when used as objects.
+JavaScript strings — whether primitive or object-wrapped — are always immutable in content.
+String objects (new String(...)) give you an object wrapper,
+But that object is still frozen in terms of its character content.
+🔄 But you can still add properties!
+strObj.newProp = "hello";
+console.log(strObj.newProp); // ✅ Works
+
+strObj[1] = "Z";
+console.log(strObj[1]); // Still "b" ❌ change ignored
+You can add new props, but can't modify existing character indices.
+✅ Summary
+Property
+Value
+strObj.hasOwnProperty('1')
+✅ true
+Is strObj[1] mutable?
+❌ false — writable: false
+Can I add new props?
+✅ strObj.foo = "bar" works
+Why?
+To preserve string immutability, even in objects
+Let me know if you'd like to run some hands-on mutation tests!
+
+
+
+
+
+
+
+
+
+
+
+Great follow-up!
+JavaScript doesn’t use private or Object.freeze() to make string characters immutable. Instead, it uses internal definitions and property descriptors when creating String objects.
+🛠️ So how does JavaScript make string characters non-writable?
+When you do this:
+const strObj = new String("abc");
+JavaScript automatically adds properties like "0", "1", "2" using:
+Object.defineProperty(strObj, "0", {
+  value: "a",
+  writable: false,
+  enumerable: true,
+  configurable: false
+});
+➡️ This is how you make a property non-writable manually.
+So internally, the JavaScript engine uses this technique for each character in the string:
+🔍 Internal logic (conceptually):
+for (let i = 0; i < stringData.length; i++) {
+  Object.defineProperty(strObj, String(i), {
+    value: stringData[i],
+    writable: false,          // ❌ can't modify
+    enumerable: true,         // shows in for...in or Object.keys
+    configurable: false       // ❌ can't delete or redefine
+  });
+}
+💡 Why not use Object.freeze()?
+Object.freeze() makes the entire object immutable.
+But JavaScript only wants the character indexes to be immutable, not the whole object.
+So instead of freezing everything, it only marks the index properties as non-writable.
+That’s why you can still do:
+strObj.custom = "hello"; // ✅ allowed
+But you can't do:
+strObj[1] = "z"; // ❌ ignored
+🔐 What about private?
+JavaScript didn't use private class fields here.
+These are low-level built-in behaviors of the language.
+No #private fields or classes involved.
+Just strict control via Object.defineProperty.
+✅ Summary
+Feature
+Explanation
+Character immutability
+Achieved via Object.defineProperty
+writable: false
+Prevents you from changing characters
+configurable: false
+Prevents you from deleting/redfining props
+Not using Object.freeze()
+Because we only want char indexes to be frozen
+Not using private
+Because it’s handled internally by the engine
+Would you like to see a demo where we define our own non-writable property like a string does?
+
+
+NOTE:::
+SAME IS THE CASE FOR TEMPORARY OBJECTS IN STRING LITERAL, THAT WHY ARE THEY IMMUTABLE, REASON IS SAME , their writable property is set as false, so js engine silently ignores the assignment statement without throwing error.
