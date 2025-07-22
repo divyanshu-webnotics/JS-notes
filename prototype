@@ -1,0 +1,172 @@
+Absolutely, Divyanshu! Here's a complete study notes-style summary of everything we discussed today on:
+✅ Constructor Functions
+✅ this keyword
+✅ Instance properties vs Prototype methods
+✅ __proto__ and prototype chain
+✅ Memory behavior and inheritance
+I’ve written it like a complete notes sheet for revision or long-term learning — with all examples and visuals you saw.
+📘 JavaScript: Constructor, this, and Prototype — Complete Notes
+🔹 1. Constructor Functions
+A constructor function is a regular function used to create objects.
+function Person(name) {
+  this.name = name;
+}
+When called with new, it creates a new object and assigns this to that object:
+let p1 = new Person("Alice");
+console.log(p1.name); // "Alice"
+🔹 2. this in Constructor
+Inside a constructor function, this refers to the newly created object.
+function Person(name) {
+  this.name = name;
+}
+Here:
+this.name = name adds a name property to the object being created.
+So:
+let p1 = new Person("Alice");
+console.log(p1.name); // "Alice"
+🔹 3. Adding Properties and Methods Inside Constructor
+You can also add methods using this:
+function Person(name) {
+  this.name = name;
+  this.sayHi = function() {
+    console.log("Hi, I'm " + this.name);
+  };
+}
+let p1 = new Person("Alice");
+let p2 = new Person("Bob");
+
+console.log(p1.sayHi === p2.sayHi); // ❌ false (new function created for each instance)
+❗ Every time new Person() is called, a new function is created. This wastes memory.
+🔹 4. The prototype Object
+Each constructor function has a built-in prototype property.
+function Person(name) {
+  this.name = name;
+}
+
+Person.prototype.sayHi = function() {
+  console.log("Hi, I'm " + this.name);
+};
+Now all instances share the same sayHi function:
+let p1 = new Person("Alice");
+let p2 = new Person("Bob");
+
+console.log(p1.sayHi === p2.sayHi); // ✅ true (same function)
+✅ This is memory-efficient because sayHi is stored only once in memory and shared.
+🔹 5. What is __proto__?
+Every JavaScript object has a hidden property called __proto__ (or [[Prototype]] internally), which points to the constructor’s .prototype object.
+let p1 = new Person("Alice");
+
+console.log(p1.__proto__ === Person.prototype); // ✅ true
+🧠 Prototype Chain Lookup
+When you call p1.sayHi(), JavaScript:
+Looks inside p1 for sayHi
+Doesn’t find it
+Goes to p1.__proto__ → which is Person.prototype
+Finds it there → executes it
+🔹 6. Diagram of Prototype Chain
+p1 object:
+{
+  name: "Alice",
+  __proto__ → Person.prototype {
+                sayHi: function() { ... }
+              }
+}
+🔹 7. What if You Remove this. in Constructor?
+function Person() {
+  skin_color = "brown"; // ❌ no "this"
+}
+🔥 Danger:
+JavaScript puts skin_color in the global scope (in non-strict mode)
+Or throws an error in "use strict" mode
+✅ Correct usage:
+function Person() {
+  this.skin_color = "brown"; // ✅ stored in instance
+}
+🔹 8. What's Stored in Memory When You Call new Person()?
+If your constructor is:
+function Person() {
+  this.skin_color = "brown";
+  this.walking = function() {
+    console.log("Walking...");
+  };
+}
+Then:
+let p1 = new Person();
+
+Memory:
+p1 → {
+  skin_color: "brown",             ✅ stored directly
+  walking: [function Walking...]   ❌ new copy (bad if repeated)
+  __proto__ → Person.prototype     ✅ reference (not copy)
+}
+❗ Methods inside the constructor = separate copies per instance
+✅ Methods on prototype = shared memory
+🔹 9. Best Practice: Use Prototype for Methods
+function Person(name) {
+  this.name = name; // instance-specific
+}
+
+Person.prototype.walking = function() {
+  console.log("Walking...");
+};
+Now all instances share walking() efficiently.
+🔚 Final Summary Table
+Concept
+Description
+this.property = value
+Adds property directly to instance
+this.method = function()
+Creates new function for every instance ❌
+Constructor.prototype.method = function()
+Adds shared method for all instances ✅
+__proto__
+Internal link from object to constructor’s .prototype
+Prototype chain
+JS looks up methods through __proto__ when missing on object
+Why not copy prototype?
+To save memory — shared instead of duplicated
+Let me know if you’d like this exported to PDF or turned into a printable study card!
+
+
+Great question, Divyanshu! Let's clarify this with a solid explanation:
+🔍 Is prototype defined inside the constructor function?
+👉 No, the prototype property is not defined inside the constructor function body.
+It is a special property of the function itself, outside the constructor’s code.
+Let’s break it down:
+🔹 Every function in JavaScript (except arrow functions) has a .prototype property.
+Here’s a simple constructor function:
+function Person(name) {
+  this.name = name;
+}
+Even though you don’t write anything like this.prototype inside it, JavaScript automatically adds a Person.prototype object.
+That prototype object is not part of the instance. It’s a special link between the constructor and the objects created from it.
+🧠 Visual Understanding
+function Person(name) {
+  this.name = name;
+}
+
+console.log(Person.prototype); 
+// 👉 This is defined by JS automatically
+// 👉 It is an empty object initially: {}
+
+// You can attach shared methods to it:
+Person.prototype.sayHi = function() {
+  console.log("Hi, I'm " + this.name);
+};
+Now if you create an instance:
+let p1 = new Person("Divyanshu");
+p1.sayHi(); // "Hi, I'm Divyanshu"
+Even though sayHi is not defined inside p1, it still works because:
+p1.__proto__ === Person.prototype; // true
+✅ Summary
+Question
+Answer
+Is prototype defined inside constructor?
+❌ No
+Where is it defined?
+On the constructor function itself, as a property
+What's it used for?
+Sharing methods/properties across all instances
+Is it attached to the object (this) created?
+❌ Not directly — but the object’s __proto__ points to it
+Let me know if you want a diagram or memory model to visualize how constructor, prototype, and instance are linked!
