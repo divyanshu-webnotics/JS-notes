@@ -1,0 +1,18 @@
+let arr = [1, 2, 3, 4, 5];
+
+arr.forEach((num) => {
+    num += 1;
+})
+
+console.log(arr);
+
+// Here, the num is a copy of the arr elements therefore changing it wont cause any effect on original array elements because simple numbers/strings are always passed by value.
+
+arr.forEach((num, index, arr) => {
+    // num += 1;
+    arr[index] += 1;
+})
+
+console.log(arr);
+
+// Here , we are directly changing the index of the arr array as its passed as argument in callBack , and as arrays are always passed by reference therefore, it cause the effects to be visible on the original array.
