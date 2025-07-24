@@ -1,0 +1,123 @@
+Awesome questions, Divyanshu 👏
+These concepts are fundamental in JavaScript, and also important in backend/frontend communication. Let’s break them down one by one — in very simple terms, with examples and analogies.
+
+---
+
+### 🔹 1. **What is JSON?**
+
+**JSON** stands for **JavaScript Object Notation**.
+
+It’s a **lightweight format** used to **store and transfer data** — mainly between a server and a client (browser).
+
+#### ✅ JSON is:
+
+* A **string** (text format)
+* **Language-independent** (used in Python, Java, etc., not just JS)
+* Inspired by JS object syntax but not exactly same as a JS object
+
+#### 💡 JSON Example:
+
+```json
+{
+  "name": "Divyanshu",
+  "age": 24,
+  "skills": ["HTML", "CSS", "JavaScript"]
+}
+```
+
+> This is a **JSON string** — not a JS object.
+> Notice: keys and string values are always in **double quotes**.
+
+---
+
+### 🔹 2. **What is `JSON.stringify()`?**
+
+✅ It **converts a JavaScript object into a JSON string**.
+
+📦 **Use Case**: To send data to a server or save it in storage (e.g., `localStorage`, database).
+
+#### 💡 Example:
+
+```js
+const obj = { name: "Divyanshu", age: 24 };
+
+const jsonString = JSON.stringify(obj);
+console.log(jsonString);  // '{"name":"Divyanshu","age":24}'
+console.log(typeof jsonString); // "string"
+```
+
+---
+
+### 🔹 3. **What is `JSON.parse()`?**
+
+✅ It **converts a JSON string back into a JavaScript object**.
+
+📦 **Use Case**: When you receive data as a string (from a server, file, or localStorage), you can convert it back to an object.
+
+#### 💡 Example:
+
+```js
+const jsonString = '{"name":"Divyanshu","age":24}';
+
+const obj = JSON.parse(jsonString);
+console.log(obj);  // { name: 'Divyanshu', age: 24 }
+console.log(typeof obj); // "object"
+```
+
+---
+
+### 🔹 4. **What is Serialization and Deserialization?**
+
+#### ✅ In Computer Science:
+
+* **Serialization** = Converting an object/data into a format suitable for storage or transfer (like string, byte stream, file, etc.)
+* **Deserialization** = Reconstructing the original object from the serialized format
+
+#### 🔁 JSON Analogy:
+
+| Concept             | Real-World Meaning                   | JSON Example          |
+| ------------------- | ------------------------------------ | --------------------- |
+| **Serialization**   | Packing object into a string         | `JSON.stringify(obj)` |
+| **Deserialization** | Unpacking string back into an object | `JSON.parse(string)`  |
+
+> Think of it like **packing your clothes (object)** into a suitcase (string) for travel — that’s **serialization**.
+> When you **unpack the suitcase** at your destination — that’s **deserialization**.
+
+---
+
+### 🔹 5. **Using JSON.stringify + parse to Make Deep Copy**
+
+```js
+const original = { name: "Divyanshu", skills: ["JS", "CSS"] };
+
+const deepCopy = JSON.parse(JSON.stringify(original));
+```
+
+✅ This creates a **deep copy**:
+
+* If you change `deepCopy.skills[0]`, it won’t affect the `original`.
+
+🧠 Why it works:
+
+* `JSON.stringify()` removes any reference — it flattens everything into a string.
+* Then `JSON.parse()` recreates a brand-new object with no shared memory.
+
+⚠️ **Limitations**:
+
+* Can’t copy functions, undefined, circular references, or special object types like `Date`, `Map`, etc.
+
+---
+
+### 🔚 Summary Table
+
+| Term             | Meaning                               | Example                   |
+| ---------------- | ------------------------------------- | ------------------------- |
+| JSON             | Data format (string)                  | `{ "name": "Divyanshu" }` |
+| JSON.stringify() | JS object ➝ JSON string (serialize)   | `JSON.stringify(obj)`     |
+| JSON.parse()     | JSON string ➝ JS object (deserialize) | `JSON.parse(jsonStr)`     |
+| Serialization    | Packing data for transfer             | `JSON.stringify()`        |
+| Deserialization  | Unpacking received data               | `JSON.parse()`            |
+
+---
+
+Let me know if you want to practice some questions or see a few tricky use cases involving JSON!
