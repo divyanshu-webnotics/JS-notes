@@ -1,0 +1,224 @@
+Q) let name = "hritik";
+console.log("outer this is:", this);
+this.naam = "divyanshu";
+console.log("outer this is:", this);
+
+const user = {
+   name: "divyanshu",
+   id: 765,
+   greetings1: function(){
+      console.log(`hello js user ${name}`);
+      
+   },
+   greetings2: function(){
+      console.log(`hello js user ${this.name}`);
+      
+   },
+   printThis: function(){
+      console.log(this);
+      
+   }
+}
+
+// console.log(user.greetings1());
+// console.log(user.greetings2());
+// console.log(user.printThis());
+
+user.greetings1()
+user.greetings2()
+user.printThis()
+
+
+
+now what i know is that when we are passing just username, so engine checks for name variable inside function scope, its not found, then engine searches inside object , now name key do exists inside object but its not treated as a variable, hence its not even found in  object scope so then engine finally  looks in gloal scope where it finaly finds the name variable.
+
+Ans)  You're **very close** and your reasoning is almost spot on — just one small correction is needed to fully understand what’s happening.
+
+Let’s dissect your current thought:
+
+---
+
+### 🟨 What You Said:
+
+> "When we use just `name`, the engine checks for it inside the function scope. It's not found, so it checks inside the object."
+
+### ❗ Correction:
+
+🚫 JavaScript does **not** search **inside the object** for variables like `"name"` unless you explicitly use `this.name` or `object.name`.
+
+---
+
+## ✅ How JavaScript Resolves `name` (Step-by-step):
+
+```js
+const user = {
+   name: "divyanshu",
+   greetings1: function() {
+      console.log(`hello js user ${name}`);
+   }
+};
+```
+
+Inside `greetings1()`, you're using `name` **without `this`**.
+
+### Here's what JavaScript does when it sees `name`:
+
+1. **Look inside the current function’s local scope** → ❌ not found
+2. **Look in outer lexical scope (where the function was defined)**
+
+   * In this case, `user.greetings1` was **defined inside the global scope**
+   * ✅ Finds `let name = "hritik"` there
+3. **It never searches inside the `user` object’s keys**
+
+   * `"name": "divyanshu"` is a **property**, not a variable
+   * So it's **invisible** unless you use `this.name` or `user.name`
+
+---
+
+## 🔁 So this is **very important to remember**:
+
+> JavaScript’s **scope chain only works with variables declared using `let`, `const`, or `var`** — not object keys.
+
+---
+
+## 🧠 Think of it like this:
+
+```js
+const user = {
+  name: "divyanshu",
+  greet() {
+    // does NOT see user.name unless you write this.name
+    console.log(name); // looks for a variable
+  }
+};
+```
+
+* `name` here is treated like a **variable**, not an object key.
+* Only `this.name` will access `"divyanshu"`.
+
+---
+
+## ✅ Final Output of Your Code (when uncommented):
+
+```js
+let name = "hritik";
+
+user.greetings1(); // hello js user hritik
+user.greetings2(); // hello js user divyanshu
+user.printThis();  // logs user object
+```
+
+---
+
+## 💡 Final Summary:
+
+| Expression  | Meaning                                 |
+| ----------- | --------------------------------------- |
+| `name`      | Treated as variable, not object key     |
+| `this.name` | Refers to key `"name"` on the object    |
+| Object keys | Not part of variable scope              |
+| Scope Chain | Only checks variable scopes, not object |
+
+---
+
+Let me know if you'd like a **visual diagram** of how scope resolution vs object property resolution works — it’s a super helpful mental model.
+
+
+
+Q) JavaScript’s scope chain only works with variables declared using let, const, or var — not object keys.
+
+so engine doesnt looks inside the object only because you cannot declare a variable inside an object, right?
+
+Ans) Exactly — you’ve nailed the core idea! ✅
+
+Let’s now **fully explain** why this is true and clarify **why object keys are not part of the scope chain.**
+
+---
+
+## 🔍 Statement:
+
+> JavaScript’s scope chain only works with variables declared using `let`, `const`, or `var` — not object keys.
+
+### ✅ Why?
+
+Because:
+
+> **You cannot declare a variable inside an object. You can only declare properties (keys).**
+
+---
+
+## 🧠 What’s the difference?
+
+### 🔹 **Variable**
+
+Declared using `let`, `const`, or `var` → goes into a **lexical scope**.
+
+```js
+function greet() {
+  let name = "hritik";
+  console.log(name); // ✅ found via scope chain
+}
+```
+
+Here, `name` is a **real variable**, and JavaScript's **scope resolution engine** will track and resolve it.
+
+---
+
+### 🔸 **Object Property (key)**
+
+Is just a key-value pair inside an object → **not a variable**.
+
+```js
+const obj = {
+  name: "divyanshu"
+};
+```
+
+Here, `"name"` is **not** a variable — it’s a **property** of `obj`.
+
+To access it, you must use:
+
+* `obj.name`
+* or inside a method: `this.name`
+
+But `name` on its own will not find this key.
+
+---
+
+## ✅ So yes — You're Right:
+
+> **JS engine doesn't look inside the object** for a variable named `"name"` because:
+
+1. Objects **don't have scoped variables** — they have **keys**.
+2. The **scope chain only applies to variable environments**, not object structures.
+3. Keys are **not part of the lexical environment record** that JS builds for resolving variables.
+
+---
+
+## 🔁 Visual Example:
+
+```js
+let name = "hritik";
+
+const user = {
+  name: "divyanshu",
+  greet: function() {
+    console.log(name);        // 🔍 Looks for variable → finds "hritik"
+    console.log(this.name);   // ✅ Looks in object → finds "divyanshu"
+  }
+};
+```
+
+---
+
+## 🧠 Mental Trick to Remember:
+
+> **Scope chain = variables (`let`, `const`, `var`)**
+>
+> **Objects = data holders (keys)**
+>
+> ➤ They live in **two separate systems** — unless you connect them using `this`.
+
+---
+
+Would you like a quiz or visual diagram to strengthen this mental model even more?
