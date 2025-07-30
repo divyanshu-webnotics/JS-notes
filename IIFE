@@ -1,0 +1,15 @@
+(function print(){
+   var a = 99;
+   var b = 1;
+
+   console.log(a+b);
+   
+   
+})()
+
+// console.log(a+b);
+
+i read about iife, and what its basic purpose wass that , it helps to minimise the pollution of global scope, like in this example , we had to do this operation of declaring 2 variables and doing operation on them, and it doesnt pollutes the global scope.
+
+
+also this could have been achieved by simply using the let keyword for declaring a and b
