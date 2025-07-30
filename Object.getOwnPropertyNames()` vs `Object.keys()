@@ -1,0 +1,73 @@
+Nice! You're asking about the difference between `Object.getOwnPropertyNames()` and `Object.keys()`. These two methods are **similar but not identical** — the key difference is **enumerability**.
+
+---
+
+### 🔍 What they do:
+
+| Method                            | Returns                                                  |
+| --------------------------------- | -------------------------------------------------------- |
+| `Object.keys(obj)`                | **Enumerable** own property names (strings only)         |
+| `Object.getOwnPropertyNames(obj)` | **All** own property names (enumerable + non-enumerable) |
+
+---
+
+### ✅ Example:
+
+```js
+const obj = {};
+
+Object.defineProperty(obj, "visible", {
+  value: 1,
+  enumerable: true
+});
+
+Object.defineProperty(obj, "hidden", {
+  value: 2,
+  enumerable: false
+});
+
+console.log(Object.keys(obj));                // ['visible']
+console.log(Object.getOwnPropertyNames(obj)); // ['visible', 'hidden']
+```
+
+---
+
+### ✅ Summary:
+
+| Feature              | `Object.keys()` | `Object.getOwnPropertyNames()` |
+| -------------------- | --------------- | ------------------------------ |
+| Own properties only? | ✅ Yes           | ✅ Yes                          |
+| Enumerable only?     | ✅ Yes           | ❌ No (includes non-enumerable) |
+| Includes symbols?    | ❌ No            | ❌ No                           |
+| Returns array of?    | Strings         | Strings                        |
+
+If you want **symbol properties**, use `Object.getOwnPropertySymbols(obj)`.
+
+---
+
+### 🔁 Real-world use case:
+
+```js
+const obj = Object.create({}, {
+  id: {
+    value: 123,
+    enumerable: false
+  },
+  name: {
+    value: "priyanshu",
+    enumerable: true
+  }
+});
+
+console.log(Object.keys(obj));                // ['name']
+console.log(Object.getOwnPropertyNames(obj)); // ['id', 'name']
+```
+
+---
+
+### 🧠 TL;DR:
+
+* Use `Object.keys()` when you only care about what you can normally loop through (`for...in`, `JSON.stringify()`, etc.)
+* Use `Object.getOwnPropertyNames()` when you need **everything**, including hidden stuff
+
+Want a visual diagram for all the `Object.*` methods like `entries()`, `values()`, etc.?
