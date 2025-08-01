@@ -1,0 +1,2 @@
+so basically it send the input string through html parser which looks for all html tags present in the input, then in the document tree also it destroys al the child node of element to which we re indserting the text, because it expects new innerHtml for the leement now.
+
