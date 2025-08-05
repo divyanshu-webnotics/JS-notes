@@ -1,0 +1,218 @@
+You're absolutely right again — thank you for pointing that out!
+Let me now give you the **final cleaned-up version** of your notes, explicitly stating that:
+
+> ✅ **Memory Creation Phase is the phase where Hoisting happens**
+
+This version will be **complete**, **clear**, and **suitable for revision** or even sharing.
+
+---
+
+# 🧠 JavaScript Execution Context, Hoisting & Memory Model — Final Notes
+
+---
+
+## ✅ 1. What is an Execution Context?
+
+An **Execution Context** is the environment in which JavaScript code is **evaluated and executed**.
+
+---
+
+### 📂 Types of Execution Contexts:
+
+1. **Global Execution Context (GEC)**
+
+   * Created when the script starts running.
+   * Handles globally scoped code.
+   * Creates the global object (`window` in browsers, `global` in Node.js).
+   * `this` refers to the global object.
+
+2. **Function Execution Context (FEC)**
+
+   * Created when a function is called.
+   * Contains that function’s local variables, arguments, inner declarations.
+   * `this` depends on how the function was called.
+
+3. **Eval Execution Context**
+
+   * Created inside `eval()` — rarely used and discouraged.
+
+---
+
+## ⚙️ 2. Phases of an Execution Context
+
+Every Execution Context goes through **two phases**:
+
+---
+
+### 🔷 Phase 1: **Memory Creation Phase (aka Hoisting Phase)**
+
+✅ **This is the phase where **Hoisting** happens**
+
+In this phase, JavaScript **scans the code before execution** and sets up the environment.
+
+#### 🧠 During this phase, JS:
+
+1. **Creates the Variable Object / Lexical Environment (LE):**
+
+   * Declares all variables and functions.
+   * `var` → hoisted and initialized to `undefined`.
+   * `let` / `const` → hoisted but not initialized (in TDZ).
+   * Function declarations → hoisted along with their full body.
+
+2. **Sets up the Scope Chain:**
+
+   * JS establishes a chain of references to parent lexical environments.
+   * This allows nested functions to access variables from outer scopes.
+
+3. **Binds the value of `this`:**
+
+   * In GEC: `this` → global object (`window`, `global`)
+   * In FEC: `this` depends on how the function was invoked (default, strict mode, method call, constructor, etc.)
+
+---
+
+### 🔷 Phase 2: **Execution Phase**
+
+* Code runs line-by-line.
+* Variable assignments happen.
+* Functions are invoked.
+* Expressions, conditions, loops, etc. are evaluated and executed.
+
+---
+
+## 🧱 3. Call Stack and Execution Contexts
+
+JavaScript is **single-threaded** and uses the **Call Stack** to manage execution contexts:
+
+* GEC is pushed first.
+* Every time a function is called, a new FEC is **pushed** onto the stack.
+* Once a function finishes, its context is **popped** off the stack.
+
+```txt
+| inner()     |
+| outer()     |
+| Global Code |
+-------------
+```
+
+---
+
+## ⚖️ 4. Stack vs Heap in JS Memory
+
+| Area      | Used For                                         |
+| --------- | ------------------------------------------------ |
+| **Stack** | Execution Contexts, primitive values, references |
+| **Heap**  | Objects, functions, arrays (complex data)        |
+
+> ✅ Function **names (references)** are stored in the stack
+> ✅ Function **bodies (code objects)** are stored in the heap
+
+---
+
+## 🪄 5. What is Hoisting?
+
+**Hoisting** is the behavior where JavaScript moves **declarations** to the top of their scope during the **Memory Creation Phase**.
+
+### ✅ So:
+
+> Hoisting = What happens during the Memory Creation Phase
+
+---
+
+## 🔍 6. What Gets Hoisted?
+
+| Declaration Type     | Hoisted?           | Initialized?  | Usable Before Declaration?         |
+| -------------------- | ------------------ | ------------- | ---------------------------------- |
+| `var`                | ✅ Yes              | ✅ `undefined` | ✅ Yes (undefined)                  |
+| `let` / `const`      | ✅ Yes              | ❌ No          | ❌ No (ReferenceError)              |
+| Function Declaration | ✅ Yes              | ✅ Yes         | ✅ Yes                              |
+| Function Expression  | ✅ `var` is hoisted | ❌ No          | ❌ No (TypeError or ReferenceError) |
+
+---
+
+## ⛔ 7. TDZ — Temporal Dead Zone
+
+Variables declared with `let`, `const`, or `class` are **hoisted but not initialized**, and accessing them before their declaration causes a **ReferenceError**.
+
+This time between hoisting and declaration is called the **TDZ**.
+
+```js
+console.log(a); // ❌ ReferenceError
+let a = 10;
+```
+
+---
+
+## 📋 8. Example with Step-by-Step Execution
+
+```js
+var a = 10;
+
+function outer() {
+  var b = 20;
+
+  function inner() {
+    var c = 30;
+    console.log(a, b, c);
+  }
+
+  inner();
+}
+
+outer();
+```
+
+### 🔄 Global Execution Context:
+
+* Memory Creation:
+
+  * `a → undefined`
+  * `outer → function object`
+  * `this → window`
+* Execution Phase:
+
+  * `a = 10`
+  * `outer()` is called → FEC created and pushed
+
+### 🔄 outer() Function Execution Context:
+
+* Memory Creation:
+
+  * `b → undefined`
+  * `inner → function`
+  * `this → depends on call`
+  * Scope chain: outer → global
+* Execution Phase:
+
+  * `b = 20`
+  * `inner()` is called → FEC created and pushed
+
+### 🔄 inner() Function Execution Context:
+
+* Memory Creation:
+
+  * `c → undefined`
+* Execution Phase:
+
+  * `c = 30`
+  * `console.log(a, b, c)` → `10 20 30`
+
+---
+
+## 📝 9. Summary Table
+
+| Concept             | Happens In              | Notes                                      |
+| ------------------- | ----------------------- | ------------------------------------------ |
+| Hoisting            | ✅ Memory Creation Phase | `var`, `let`, `const`, functions           |
+| Lexical Environment | ✅ Memory Creation Phase | Holds variable/function declarations       |
+| Scope Chain Setup   | ✅ Memory Creation Phase | Enables outer scope access                 |
+| `this` Binding      | ✅ Memory Creation Phase | Depends on call context                    |
+| Code Execution      | ✅ Execution Phase       | Variable assignment, function calls, logic |
+
+---
+
+## 🧾 Want a File?
+
+Would you like this note in **PDF**, **Word**, or **text** format so you can revise offline or print it out?
+
+Let me know and I’ll generate it for you in seconds ✅
