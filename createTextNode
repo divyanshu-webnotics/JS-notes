@@ -1,0 +1,93 @@
+Perfect 👍 Let’s unpack that “core rule”:
+
+---
+
+## 🔹 DOM as a Tree
+
+The DOM (Document Object Model) represents your HTML page as a **tree of nodes**.
+
+* Each **element** (`<div>`, `<p>`, etc.) and each **piece of text** is a node.
+* A node can only have **one parent** at a time.
+
+So in the tree structure:
+
+* One node = one position.
+* If you try to append the same node somewhere else, the DOM doesn’t duplicate it — it **removes it from the old place and moves it to the new place**.
+
+---
+
+## 🔹 Example 1: One text node reused
+
+```js
+let text = document.createTextNode("Hello");
+
+let div1 = document.createElement("div");
+let div2 = document.createElement("div");
+
+div1.appendChild(text);
+div2.appendChild(text);
+```
+
+Result in DOM:
+
+```html
+<div></div>
+<div>Hello</div>
+```
+
+👉 `Hello` ended up **only in `div2`**, because the same text node got *moved*.
+
+---
+
+## 🔹 Example 2: Element reuse
+
+```js
+let p = document.createElement("p");
+p.innerText = "Hi";
+
+document.body.appendChild(p);
+document.querySelector("#container").appendChild(p);
+```
+
+Result:
+
+* `<p>` appears **only inside `#container`**.
+* It was **removed from `body`** when you appended it to `#container`.
+
+---
+
+## 🔹 Why does this happen?
+
+Because in a **tree data structure**:
+
+* A node cannot belong to two parents.
+* If it could, the structure would no longer be a tree but a graph with multiple references.
+* The DOM enforces **tree consistency**.
+
+---
+
+## 🔹 How to actually duplicate a node?
+
+If you want it in multiple places:
+
+* Create a **new node each time**:
+
+  ```js
+  div1.appendChild(document.createTextNode("Hello"));
+  div2.appendChild(document.createTextNode("Hello"));
+  ```
+* Or **clone** the existing node:
+
+  ```js
+  div2.appendChild(text.cloneNode(true));
+  ```
+
+---
+
+✅ **Key takeaway:**
+A DOM node = one unique object in memory = one place in the DOM tree at a time.
+Appending it again doesn’t copy, it **moves** it.
+
+---
+
+Would you like me to also draw you a **tree diagram illustration** (text-based) of how the node moves between parents? That makes it super clear.
