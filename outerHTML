@@ -1,3 +1,25 @@
+outerHTML   V/S     innerHTML
+
+<h1>
+Divyanshu Khare
+<span style='display:none;' >dehi</span>
+</h1>
+
+document.querySelector('h1').outerHTML ====> 
+<h1>
+Divyanshu Khare
+<span style='display:none;' >dehi</span>
+</h1>
+
+
+document.querySelector('h1').innerHTML ====> 
+Divyanshu Khare
+<span style='display:none;' >dehi</span>
+
+
+                    ***************************************XXXXXXXXXXXXXXXXXXXXX*************************************************
+
+
 Absolutely! Here's a **concise note** for you to remember:
 
 ---
