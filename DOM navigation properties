@@ -43,6 +43,8 @@ If you like, I can make you a **visual diagram** showing how these properties co
 
 
 
+FOR DELETION OF ELEMENTS :::::
+.remove()     OR       .removeChild()
 
 
 
