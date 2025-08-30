@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Document</title>
+
+  <style>
+    * {
+      padding: 0px !important;
+      margin: 0px !important;
+    }
+
+    body {
+      background-color: #212121;
+    }
+
+    header{
+      background-color: aliceblue;
+    }
+
+    header img{
+      width: 80%;
+    }
+
+    nav .list{
+      transition: all 0.35s ease;
+    }
+
+    nav .list::after{
+      content:'\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      display: inline-block;
+      width: 10px;
+    }
+    nav .list:hover::after{
+      content:'\f054';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-left: 8px;
+      display: inline-block;
+      width: 10px;
+    }
+
+    nav ul{
+      display: flex;
+      justify-content: left;
+      column-gap: 25px;
+      list-style: none;
+    }
+
+    nav ul li{
+      position: relative;
+      border-bottom: 2px solid transparent;
+    }
+    nav ul li:hover{
+      border-bottom: 2px solid #31D2F2;
+    }
+
+    header .row .col-2, header .row .col-6, header .row .col-4{
+      display: flex;
+      align-items: center;
+    }
+
+    header .row .col-4{
+      justify-content: end;
+    }
+
+    nav ul{
+      margin:0;
+    }
+
+    .right-top span:first-child::before{
+      content: '\f095';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-right: 5px;
+    }
+    .sign-in::before{
+      content: '\f08b';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      margin-right: 5px;
+    }
+
+    .right-top{
+          display: flex
+;
+    align-items: center;
+    column-gap: 20px;
+    color: 
+rgba(0, 43, 74, 0.65);
+    }
+
+    .header-container{
+      padding: 20px 30px !important;
+    }
+
+    .hamburger-icon-wrapper{
+      font-size: 25px;
+    }
+
+    nav ul li:nth-child(1):hover ul{
+      display: flex !important;
+    }
+
+    @media only screen and (max-width:991px){
+     .nav-links.open {          position: absolute;
+    background-color: burlywood;
+    left: 0;
+    /* flex-direction: column; */
+    display: flex !important
+;
+    flex-direction: column;
+    max-width: 300px;
+    top: 0;
+    opacity: 1;
+    padding: 25px !important;
+    }
+     .nav-links {          position: absolute;
+    background-color: burlywood;
+    left: 0;
+    /* flex-direction: column; */
+    display: flex
+;   
+    flex-direction: column;
+    max-width: 300px;
+    top: 0;
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.35s ease;
+    padding: 25px !important;}
+    
+    header{
+      position: relative;
+    }
+    .nav-links ul{
+      flex-direction: column;
+    row-gap: 50px;
+    /* display: none */
+    ;
+    }
+    .nav-links ul.open{
+      flex-direction: column;
+    row-gap: 50px;
+    display: flex
+    ;
+    }
+  }
+  
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-container">
+          <div class="row">
+      <div class="col-xl-2 col-lg-1 col-12 d-flex align-items-center justify-content-between">
+        <div class="logo-wrapper">
+          <img src="./main-logo.png">
+        </div>
+        <div class="hamburger-icon-wrapper d-lg-none">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+      <div class="col-xl-6 col-lg-7  d-lg-flex align-items-center nav-links">
+        <nav>
+          <ul>
+            <li class="list">Product
+              <ul style="background-color: aliceblue; position: absolute; left:0; top:100%; display: none; flex-direction: column; padding: 10px 20px !important;border-top: 23px solid #F0F8FF; row-gap:10px">
+                <li>Phone</li>
+                <li>Computer</li>
+                <li>Device</li>
+              </ul>
+            </li>
+            <li class="list">Solutions</li>
+            <li class="list">Resources</li>
+            <li class="list">Company</li>
+            <li class="list">Pricing</li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-xl-4 col-lg-4 d-none d-lg-flex align-items-center">
+        <div class="right-top">
+          <span>
+            646-741-4816
+          </span>
+          <span class="sign-in">
+            Sign in
+          </span>
+          <button type="button" class="btn btn-info px-4 py-2" style="color: white;font-weight: 600;">Get a Demo</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </header>
+</body>
+<script>
+  const hamburger = document.querySelector('.hamburger-icon-wrapper');
+  const dropdown = document.querySelector('.nav-links');
+  const ul = document.querySelector('.nav-links ul')
+
+  hamburger.addEventListener('click',function(e){
+    dropdown.classList.toggle('open');
+    // ul.classList.toggle('open');
+  })
+</script>
+
+</html>
