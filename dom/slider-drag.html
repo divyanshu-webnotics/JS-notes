@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drag & Swipe Slider (Infinite)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:#212121;
+      font-family: system-ui, sans-serif;
+    }
+    .slider {
+      position: relative;
+      width: 90%;
+      max-width: 900px;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      background:#111;
+      cursor: grab;
+    }
+    .slider.grabbing { cursor: grabbing; }
+    .track {
+      display: flex;
+      will-change: transform;
+      /* no default transition; we set it in JS exactly when needed */
+    }
+    .slide {
+      flex: 0 0 100%;
+      user-select: none;
+      pointer-events: none; /* prevents default image dragging ghost */
+    }
+    .slide img { display:block; width:100%; height:auto; }
+
+    .icon-btn {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:44px; height:44px; display:grid; place-items:center;
+      border-radius:999px; background:rgba(0,0,0,.45);
+      color:#fff; font-size:1.25rem; cursor:pointer; z-index:2;
+      border:1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(3px);
+    }
+    .icon-btn-left { left:12px; }
+    .icon-btn-right { right:12px; }
+    .icon-btn:active { transform: translateY(-50%) scale(.96); }
+  </style>
+</head>
+<body>
+
+  <div class="slider" id="slider">
+    <div class="track" id="track">
+      <!-- clone of last REAL slide -->
+      <div class="slide"><img src="https://picsum.photos/id/1018/1200/600" alt=""></div>
+
+      <!-- REAL slides -->
+      <div class="slide"><img src="https://picsum.photos/id/1015/1200/600" alt=""></div>
+      <div class="slide"><img src="https://picsum.photos/id/1016/1200/600" alt=""></div>
+      <div class="slide"><img src="https://picsum.photos/id/1018/1200/600" alt=""></div>
+
+      <!-- clone of first REAL slide -->
+      <div class="slide"><img src="https://picsum.photos/id/1015/1200/600" alt=""></div>
+    </div>
+
+    <button class="icon-btn icon-btn-left" id="prev" aria-label="Previous">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="icon-btn icon-btn-right" id="next" aria-label="Next">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <script>
+    const slider = document.getElementById('slider');
+    const track  = document.getElementById('track');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const slides = Array.from(track.children);
+    const total = slides.length; // includes 2 clones
+    let current = 1; // start on first REAL slide (index 1)
+    let startX = 0, isDown = false;
+    let prevTranslate = 0, currentTranslate = 0, rafId = 0;
+
+    // helpers
+    const slideWidth = () => slider.clientWidth;
+
+    function setTransform(px, withTransition = false) {
+      track.style.transition = withTransition ? 'transform 0.45s ease' : 'none';
+      track.style.transform  = `translateX(${px}px)`;
+    }
+
+    function snapToIndex(index, withTransition = true) {
+      current = index;
+      const px = -current * slideWidth();
+      prevTranslate = px;
+      currentTranslate = px;
+      setTransform(px, withTransition);
+    }
+
+    // init position
+    snapToIndex(current, false);
+
+    // buttons
+    nextBtn.addEventListener('click', () => snapToIndex(current + 1, true));
+    prevBtn.addEventListener('click', () => snapToIndex(current - 1, true));
+
+    // infinite wrap on transition end
+    track.addEventListener('transitionend', () => {
+      if (current === total - 1) {        // at last clone -> jump to first real
+        snapToIndex(1, false);
+      } else if (current === 0) {         // at first clone -> jump to last real
+        snapToIndex(total - 2, false);
+      }
+    });
+
+    // drag/swipe
+    const getX = e => e.type.startsWith('mouse') ? e.pageX : e.touches[0].clientX;
+
+    function onDown(e) {
+      isDown = true;
+      slider.classList.add('grabbing');
+      startX = getX(e);
+      // IMPORTANT: align prevTranslate with where we currently are in px
+      prevTranslate = -current * slideWidth();
+      currentTranslate = prevTranslate;
+      setTransform(currentTranslate, false);
+      rafId = requestAnimationFrame(loop);
+      // prevent image ghost drag & mobile scroll
+      if (e.cancelable) e.preventDefault();
+    }
+    function onMove(e) {
+      if (!isDown) return;
+      const x = getX(e);
+      currentTranslate = prevTranslate + (x - startX);
+      if (e.cancelable) e.preventDefault();
+    }
+    function onUp(e) {
+      if (!isDown) return;
+      isDown = false;
+      slider.classList.remove('grabbing');
+      cancelAnimationFrame(rafId);
+
+      const moved = currentTranslate - prevTranslate;
+      const threshold = Math.min(120, slideWidth() * 0.15);
+
+      if (moved < -threshold) current += 1;   // swiped left -> next
+      else if (moved > threshold) current -= 1; // swiped right -> prev
+
+      snapToIndex(current, true);
+    }
+
+    function loop() {
+      setTransform(currentTranslate, false);
+      if (isDown) rafId = requestAnimationFrame(loop);
+    }
+
+    // mouse
+    slider.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    // touch
+    slider.addEventListener('touchstart', onDown, { passive: false });
+    slider.addEventListener('touchmove', onMove, { passive: false });
+    slider.addEventListener('touchend', onUp);
+
+    // keep position on resize
+    window.addEventListener('resize', () => snapToIndex(current, false));
+
+    // prevent default img drag (extra safety)
+    slides.forEach(s => s.addEventListener('dragstart', e => e.preventDefault()));
+  </script>
+</body>
+</html>
