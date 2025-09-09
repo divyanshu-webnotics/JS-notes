@@ -1,0 +1,106 @@
+Got it! Here’s a **clean set of notes on hoisting and function behavior**, **excluding key events**, for your future reference:
+
+---
+
+# **JavaScript Notes: Hoisting & Function Behavior**
+
+---
+
+## **1. Function Declarations vs Function Expressions**
+
+### **Function Declaration (Hoisted)**
+
+```javascript
+function strikeOff(e) { ... }
+```
+
+* Entire function is **hoisted** to memory.
+* Can be called **before it is defined** in the code.
+
+```javascript
+strikeOff(); // ✅ Works
+function strikeOff() { console.log('Hello'); }
+```
+
+---
+
+### **Function Expression / Arrow Function (Not Fully Hoisted)**
+
+```javascript
+const strikeOff = function() { ... }
+const strikeOff = () => { ... }
+```
+
+* Only the **variable name** is hoisted.
+* Function body is **not hoisted**.
+* Calling it before definition → **ReferenceError**.
+
+```javascript
+strikeOff(); // ❌ Error
+const strikeOff = function() { console.log('Hello'); }
+```
+
+---
+
+## **2. Hoisting Concept**
+
+**Definition:**
+Hoisting is the behavior where **variable and function declarations are moved to the top of their scope in memory** during the **memory (creation) phase** of execution.
+
+---
+
+### **Execution Context Phases**
+
+1. **Memory (Creation) Phase**
+
+   * Allocate memory for variables and functions
+   * `var` → initialized as `undefined`
+   * `let` / `const` → in Temporal Dead Zone (TDZ)
+   * Function declarations → **entire function stored in memory**
+
+2. **Execution Phase**
+
+   * Code runs line by line
+   * Variables get assigned values
+   * Function calls executed
+
+---
+
+### **Example**
+
+```javascript
+list.addEventListener('click', strikeOff);
+
+function strikeOff(e) {
+  console.log('clicked');
+}
+```
+
+**Memory Phase:** `strikeOff` stored fully in memory.
+**Execution Phase:** `addEventListener` attaches `strikeOff` → works correctly, even though the function is written later in code.
+
+---
+
+### **Variables Hoisting Summary**
+
+| Type                 | Hoisted? | Initialization             |
+| -------------------- | -------- | -------------------------- |
+| `var`                | Yes      | `undefined`                |
+| `let`/`const`        | Yes      | No (in Temporal Dead Zone) |
+| Function Declaration | Yes      | Entire function body       |
+
+---
+
+### **Key Takeaways**
+
+1. **Function Declarations** → can be called before definition.
+2. **Function Expressions / Arrow Functions** → cannot be called before definition.
+3. Hoisting happens during **memory phase** of the execution context.
+4. `var` variables → initialized as `undefined`; `let/const` → in TDZ.
+5. Execution phase runs the code line by line, assigning values and executing functions.
+
+---
+
+If you want, I can also make a **visual cheat sheet with memory vs execution phase** for function hoisting—it’s very handy for quick reference.
+
+Do you want me to make that?
