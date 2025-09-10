@@ -23,6 +23,18 @@ body{
   margin: auto;
 }
 
+.task-list li span.strike{
+  text-decoration: line-through;
+}
+
+.task-list li span{
+  text-decoration: none;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: green; /* modern and easier */
+}
+
 @media only screen and (max-width:1024px){
   .main{
     width: 100%;
