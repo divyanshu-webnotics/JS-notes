@@ -28,7 +28,7 @@ Here’s the main set you’ll use:
 
 * **`element.parentElement`** → The parent element.
 * **`element.parentNode`** → The parent node (could be a Document or DocumentFragment too).
-* **`element.closest(selector)`** → Finds the nearest ancestor (including itself) matching a selector.
+* **`element.closest(selector)`** → NOTE::: Itd oesnt checks with sibling elements, Finds the nearest ancestor (including itself) matching a selector.
 
 ---
 
