@@ -1,8 +1,20 @@
 const input = document.getElementById('fname');
 const addBtn = document.querySelector('.input-wrapper button');
 const list = document.querySelector('.task-list');
+const popUp = document.querySelector('.warning-overlay');
 
 loadFromLocalStorage();
+
+addBtn.style.display = 'none';
+input.addEventListener('focus',(e)=>{
+  addBtn.style.display = 'inline';
+})
+input.addEventListener('blur',(e)=>{
+  setTimeout(function(){
+    addBtn.style.display = 'none';
+  },500)
+  
+})
 
 function addToLocal(){
   let arrayOfLists = [];
@@ -78,21 +90,52 @@ function addToListFromLocal(task){
   list.appendChild(li);
 }
 
+let targetList;
+
+popUp.addEventListener('click',function(e){
+  console.log(e.target);
+  if(e.target.className != 'warning' && e.target.className != 'yes-btn' && e.target.tagName != 'SPAN'){
+    popUp.style.display = 'none';
+  }
+})
+
 function deleteTask(e){
   // if(e.target.tagName==='BUTTON'){
   //   e.target.parentElement.remove();
   // }
 
   if(e.target.className == 'delete-btn'){
-    e.target.parentElement.parentElement.remove();
-    addToLocal();
+    // e.target.parentElement.parentElement.remove();
+    const targetList = e.target.parentElement.parentElement;
+    console.log(targetList);
+    popUp.style.display = 'flex';
+
+    function finalDeleteTask(e){
+      if(e.target.classList.contains('yes-btn')){
+        targetList.remove();
+        popUp.style.display = 'none';
+        addToLocal();
+      }
+    }
+
+    list.addEventListener('click',finalDeleteTask);
   }
 }
+
+    function finalDeleteTask(e){
+if(e.target.className == 'yes-btn')
+
+  console.log(targetList);
+
+      addToLocal();
+    }
 
 addBtn.addEventListener('click',addToList);
 input.addEventListener('keydown',enterDetection)
 
 list.addEventListener('click',deleteTask);
+
+
 
 list.addEventListener('click',editTask);
 
@@ -111,7 +154,9 @@ function enterDetection(e){
 }
 
 function editTask(e){
+  let editBtn = e.target;
   if(e.target.className === 'edit-btn'){
+    e.target.disabled = true;
     const editInput = document.createElement('input');
     editInput.type = 'text';
     editInput.value = e.target.parentElement.previousElementSibling.innerHTML;
@@ -131,11 +176,16 @@ function editTask(e){
           if(strikeCheck) newSpan.classList.add('strike');
           editSlot.replaceWith(newSpan);
           addToLocal();
+          
     }
 
     if(e.key=='Escape'){
       editSlot.replaceWith(prevElement);
+      
     }
+    console.log(editBtn);
+    editBtn.disabled = false;
+    
 });
   }
 }

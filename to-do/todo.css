@@ -1,42 +1,69 @@
-body{
+body {
   background-color: #212121;
   color: #ffffff;
+  font-size: 20px;
 }
 
-.task-list{
-      list-style-type: none;
-    padding: 0;
-    display: flex
-;
-    flex-direction: column;
-    row-gap: 10px;
+.task-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
 }
 
-.task-list li{
+.task-list li {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.main{
+.main {
   width: 40%;
   margin: auto;
 }
 
-.task-list li span.strike{
-  text-decoration: line-through;
-}
-
-.task-list li span{
+.task-list li span {
   text-decoration: none;
 }
 
-input[type="checkbox"]:checked {
-  accent-color: green; /* modern and easier */
+.task-list li span.strike {
+  text-decoration: line-through;
 }
 
-@media only screen and (max-width:1024px){
-  .main{
+.warning-overlay{
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  background-color: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+}
+
+.warning {
+  /* display: none; */
+  background-color: #ffffff;
+  color: #212121;
+  padding: 20px 50px;
+  /* position: fixed;
+  top: 50%;
+  padding: 20px 50px;
+  left: 50%;
+  transform: translateX(-50%); */
+}
+
+.warning button{
+  background-color: red;
+  padding: 10px 20px;
+  margin-left: 10px;
+}
+
+@media only screen and (max-width:1024px) {
+  .main {
     width: 100%;
   }
 }
