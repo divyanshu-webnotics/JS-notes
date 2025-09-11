@@ -1,0 +1,125 @@
+protocol: HTTP / HTTPS:
+
+- SO BASICALLY these are the type of the channel of communication between client and browser.
+- HTTPS(secure) this channel encrypts the data which is flowing back and forth.
+
+host: 
+
+- host refers to the IP address of the server on which our site is hosted. eg:- 127.0.0.1
+
+domain name:
+
+- it refers to the host address. it is easy to remember and use by the clients instead of host address.
+
+port:
+
+- a server typically performs many tasks, like hosting your data, sending mails, doing verification, etc.
+- each of the task is executed by different ports of a server.
+- so a client can ask for executing a specific task by providing its port number to server.
+- eg:- 127.0.0.1:5500 , here 5500 is port & 127.0.0.1 is IP address of the server.
+
+
+
+
+
+
+
+
+
+
+Great, now we’re moving into **browser storage** 🍪💾. Let’s compare **cookies**, **localStorage**, and **sessionStorage** in a clear way.
+
+---
+
+# 1. Cookies 🍪
+
+* **What they are:**
+  Small text data (a few KB each) stored in your browser by a website.
+
+* **Who can read them:**
+
+  * Your browser automatically **sends cookies with every HTTP/HTTPS request** to that domain.
+  * This is why cookies are heavily used for **authentication (login sessions)**.
+
+* **Control:**
+
+  * Website sets cookies using HTTP headers (`Set-Cookie`) or JavaScript (`document.cookie`).
+  * Cookies can be marked as:
+
+    * `HttpOnly` → not accessible via JS (more secure).
+    * `Secure` → only sent on HTTPS.
+    * `SameSite` → restricts cross-site usage.
+
+* **Lifespan:**
+
+  * **Session cookies** → deleted when you close browser.
+  * **Persistent cookies** → stored until expiry date.
+
+---
+
+# 2. localStorage 💾
+
+* **What it is:**
+  Key-value storage in the browser.
+
+* **Who can read it:**
+
+  * Only accessible via JavaScript on that website’s domain.
+  * **Not** sent automatically to the server.
+
+* **Capacity:**
+  \~5–10 MB (much larger than cookies).
+
+* **Lifespan:**
+  Data **persists** even after closing/reopening the browser, until cleared manually or by code (`localStorage.removeItem`).
+
+* **Use case:**
+  Save preferences, app state, cached data (e.g., dark mode, form drafts).
+
+---
+
+# 3. sessionStorage 🗂️
+
+* **What it is:**
+  Similar to localStorage (key-value).
+
+* **Who can read it:**
+
+  * Only accessible via JavaScript on that website’s domain.
+  * **Not** sent to the server.
+
+* **Capacity:**
+  Same as localStorage (\~5–10 MB).
+
+* **Lifespan:**
+  Data lives only for the **tab session**.
+
+  * If you close the tab → data is gone.
+  * If you open the same site in a new tab → it gets a fresh sessionStorage.
+
+* **Use case:**
+  Temporary data, like step-by-step form progress or data that should reset per tab.
+
+---
+
+# 4. Key Differences ✅
+
+| Feature             | Cookies                         | localStorage                 | sessionStorage             |
+| ------------------- | ------------------------------- | ---------------------------- | -------------------------- |
+| **Size Limit**      | \~4 KB per cookie               | \~5–10 MB                    | \~5–10 MB                  |
+| **Sent to Server?** | ✅ Yes, on every request         | ❌ No                         | ❌ No                       |
+| **Access**          | JS (`document.cookie`) & server | Only JS (`localStorage`)     | Only JS (`sessionStorage`) |
+| **Lifespan**        | Session or set expiry           | Until cleared                | Until tab closed           |
+| **Best For**        | Authentication, login sessions  | Preferences, cached app data | Per-tab temporary data     |
+
+---
+
+# 🔑 Bottom line:
+
+* **Cookies** = talk to the **server** (login, tracking).
+* **localStorage** = **persistent browser-only storage**.
+* **sessionStorage** = **tab-limited browser-only storage**.
+
+---
+
+👉 Want me to also show you a **real browser example** (code snippets) of how to set/read cookies, localStorage, and sessionStorage so you can test it in your browser console?
