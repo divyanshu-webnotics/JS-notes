@@ -5,10 +5,98 @@ const popUp = document.querySelector('.warning-overlay');
 const selectAll = document.querySelector('.all-btns span:nth-child(1)');
 const deleteAll = document.querySelector('.all-btns span:nth-child(2)');
 const allWrapper = document.querySelector('.all-btns');
-
+const select = document.querySelector('.filter-wrapper select');
 
 
 loadFromLocalStorage();
+
+
+select.addEventListener('change',(e)=>{
+  if(select.value==='pending'){
+//       console.log('heybeath')
+//     const liSpan = 
+// list.querySelectorAll('input[type="checkbox"]:not(:checked)');
+//     const myLi = [];
+//      liSpan.forEach((l)=>{
+//       myLi.push(l.parentElement);
+//     })
+//  console.log(myLi);
+//  list.innerHTML = '';
+//     myLi.forEach((m)=>{
+      
+//   list.appendChild(m);
+//     })
+
+
+
+
+if(localStorage.getItem('tasks')){
+  list.innerHTML = '';
+ 
+    const taskList = JSON.parse(localStorage.getItem('tasks'));
+    // console.log(taskList); 
+  taskList.forEach(function(task){
+    if(task[1]==='pending'){
+          addToListFromLocal(task);
+    }
+
+  })
+  }
+  
+
+
+
+
+
+
+
+  }
+  else if(select.value==='completed'){
+  
+//         const liSpan = list.querySelectorAll('.strike') ;
+//     const myLi = [];
+//      liSpan.forEach((l)=>{
+//       myLi.push(l.parentElement);
+//     })
+
+    
+//  console.log(myLi);
+//  list.innerHTML = '';
+//     myLi.forEach((m)=>{
+      
+//   list.appendChild(m);
+//     })
+//   }
+
+
+if(localStorage.getItem('tasks')){
+  list.innerHTML = '';
+ 
+    const taskList = JSON.parse(localStorage.getItem('tasks'));
+    // console.log(taskList); 
+  taskList.forEach(function(task){
+    if(task[1]==='done'){
+          addToListFromLocal(task);
+    }
+
+  })
+  }
+
+
+
+
+   
+}
+
+else if(select.value==='select'){
+    list.innerHTML = '';
+    console.log('bye');
+    loadFromLocalStorage()
+   }
+
+})
+
+
 
 
 allWrapper.addEventListener('click',(e)=>{

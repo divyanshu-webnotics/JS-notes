@@ -64,6 +64,7 @@ body {
 
 .all-btns{
   padding:0;
+  margin:0;
 }
 
 .all-btns span{
@@ -75,6 +76,20 @@ body {
 
 .all-btns span:nth-child(2){
   margin-left: 10px;
+}
+
+.mid-wrapper{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.filter-wrapper{
+  font-size: 14px;
+  display: flex
+;
+    align-items: end;
+    column-gap: 10px;
 }
 
 @media only screen and (max-width:1024px) {
