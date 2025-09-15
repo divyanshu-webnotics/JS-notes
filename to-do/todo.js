@@ -2,19 +2,60 @@ const input = document.getElementById('fname');
 const addBtn = document.querySelector('.input-wrapper button');
 const list = document.querySelector('.task-list');
 const popUp = document.querySelector('.warning-overlay');
+const selectAll = document.querySelector('.all-btns span:nth-child(1)');
+const deleteAll = document.querySelector('.all-btns span:nth-child(2)');
+const allWrapper = document.querySelector('.all-btns');
+
+
 
 loadFromLocalStorage();
 
+
+allWrapper.addEventListener('click',(e)=>{
+  console.log(e.target.textContent);
+  console.log(typeof(e.target.textContent));
+  if(e.target.className === 'select'){
+    list.querySelectorAll('input').forEach((ip)=>{
+      ip.checked = true;
+      if(!(ip.nextElementSibling.classList.contains('strike'))){
+        ip.nextElementSibling.classList.add('strike');
+                addToLocal();
+      }
+      // ip.nextElementSibling.classList.toggle('strike');
+    })
+  }
+  else if(e.target.className === 'delete'){
+    const allLists = list.querySelectorAll('li');
+
+    popUp.style.display = 'flex';
+
+        function finalDeleteTask(e){
+      if(e.target.classList.contains('yes-btn')){
+        allLists.forEach((li)=>{
+          li.remove();
+        })
+        popUp.style.display = 'none';
+        addToLocal();
+      }
+    }
+
+    popUp.addEventListener('click',finalDeleteTask);
+  }
+})
+
 addBtn.style.display = 'none';
-input.addEventListener('focus',(e)=>{
-  addBtn.style.display = 'inline';
+// input.addEventListener('focus',(e)=>{
+//   addBtn.style.display = 'inline';
+// })
+input.addEventListener('keydown',function(e){
+   addBtn.style.display = 'inline';
 })
-input.addEventListener('blur',(e)=>{
-  setTimeout(function(){
-    addBtn.style.display = 'none';
-  },500)
+// input.addEventListener('blur',(e)=>{
+//   setTimeout(function(){
+//     addBtn.style.display = 'none';
+//   },500)
   
-})
+// })
 
 function addToLocal(){
   let arrayOfLists = [];
@@ -38,6 +79,7 @@ function addToLocal(){
 
 function addToList(e){
   if(input.value === '') return;
+  addBtn.style.display = 'none';
   const li = document.createElement('li');
   // li.innerHTML = `<input type='checkbox' class='toggle'> ${input.value}`;
   const toggle = document.createElement('input');
@@ -194,7 +236,8 @@ function editTask(e){
 function loadFromLocalStorage(){
   if(localStorage.getItem('tasks')){
 
-    const taskList = JSON.parse(localStorage.getItem('tasks')) 
+    const taskList = JSON.parse(localStorage.getItem('tasks'));
+    console.log(taskList); 
   taskList.forEach(function(task){
     addToListFromLocal(task);
   })
