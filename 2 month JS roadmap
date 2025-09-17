@@ -23,3 +23,32 @@ then api call, promises and async await for next month.
 -weather-api-app
 -movie-api-app
 -refactor-quiz-app-into-modular-components, that was week 7.
+
+
+THEORY on WEEKEND:::::::::::
+
+Here is a detailed weekend theory revision plan broken into an actionable day-by-day checklist up to 15th November:
+
+| 📅 Date           | ✅ Theory Topics to Revise                                                                  |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| **Sept 21 (Sat)** | Variables (var, let, const), Data types, Type coercion/conversion                          |
+| **Sept 22 (Sun)** | Hoisting, Execution context, Call stack, Closures                                          |
+| **Sept 28 (Sat)** | "this" keyword, Arrow functions vs regular functions, Function declarations vs expressions |
+| **Sept 29 (Sun)** | Callback functions, Higher-order functions, IIFE                                           |
+| **Oct 5 (Sat)**   | Event loop, Callback hell & avoiding it, Promises (creation, chaining, error handling)     |
+| **Oct 6 (Sun)**   | Async/Await, Microtasks vs Macrotasks                                                      |
+| **Oct 12 (Sat)**  | DOM basics, Event delegation, Event bubbling vs capturing                                  |
+| **Oct 13 (Sun)**  | PreventDefault vs StopPropagation, Browser Storage (localStorage vs sessionStorage)        |
+| **Oct 19 (Sat)**  | Prototypes, Prototypal inheritance, Classes, Constructor functions                         |
+| **Oct 20 (Sun)**  | Encapsulation, Private properties, Modules (import/export)                                 |
+| **Oct 26 (Sat)**  | Template literals, Destructuring (array & object), Spread & rest operators                 |
+| **Oct 27 (Sun)**  | Default parameters, Error handling (try-catch-finally, custom errors)                      |
+| **Nov 2 (Sat)**   | Debouncing vs Throttling concepts                                                          |
+| **Nov 3 (Sun)**   | Memory leaks: causes & prevention strategies                                               |
+| **Nov 9 (Sat)**   | Deep dive: Event loop execution (call stack, task queue, microtask queue)                  |
+| **Nov 10 (Sun)**  | Quick overall revision of weak areas based on self-assessment                              |
+| **Nov 15 (Fri)**  | Final revision & summarization of key concepts before interview                            |
+
+👉 This plan ensures consistent coverage of critical JS theory without overload. You’ll have time to digest each topic and revise effectively.
+
+
